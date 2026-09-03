@@ -177,8 +177,11 @@ function App() {
     }
 
     setFilteredCourses(results)
-    setCurrentPage(1)
   }, [searchTerm, filterTerm, courses, showSavedOnly, savedCourseIds])
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchTerm, filterTerm, courses, showSavedOnly])
 
   useEffect(() => {
     if (currentView === 'planner') {
