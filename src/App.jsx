@@ -248,20 +248,13 @@ function App() {
                 </select>
               </label>
             </div>
-            <div className="planner-summary">
-              <strong>Total Credits: {totalPlannerCredits}</strong>
-              {warningText && <span className="planner-warning">{warningText}</span>}
-            </div>
           </div>
 
           <div className="planner-list">
             {plannerCoursesList.length === 0 ? (
               <div className="planner-empty">No courses planned for {selectedSemester} yet.</div>
             ) : (
-              plannerCoursesList.map(course => {
-                const courseCredits = getCourseCredits(course)
-
-                return (
+              plannerCoursesList.map(course => (
                   <div className="planner-item" key={course.id}>
                     <div className="planner-course-summary">
                       <span className="planner-department">{course.department}</span>
@@ -269,14 +262,12 @@ function App() {
                       <span className="planner-title">{course.title}</span>
                     </div>
                     <div className="planner-course-meta">
-                      <span>{courseCredits} credits</span>
                       <button type="button" className="planner-remove-btn" onClick={() => removePlannerCourse(course.id)}>
                         Remove
                       </button>
                     </div>
                   </div>
-                )
-              })
+              ))
             )}
           </div>
         </div>
