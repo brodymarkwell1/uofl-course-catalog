@@ -69,8 +69,10 @@ function App() {
 
   const isSaved = (courseId) => savedCourseIds.includes(courseId)
 
+  const activeSemester = addSemester || selectedSemester
+
   const isInPlanner = (courseId) => {
-    const semesterCourses = plannerCourses[selectedSemester] || []
+    const semesterCourses = plannerCourses[activeSemester] || []
     return semesterCourses.includes(courseId)
   }
 
@@ -329,9 +331,9 @@ function App() {
                 <button
                   type="button"
                   className="save-course-btn planner-btn saved"
-                  onClick={() => togglePlannerCourse(selectedCourse, selectedSemester)}
+                  onClick={() => togglePlannerCourse(selectedCourse, activeSemester)}
                 >
-                  Remove from {selectedSemester}
+                  Remove from {activeSemester}
                 </button>
               ) : (
                 <div className="planner-add-control">
