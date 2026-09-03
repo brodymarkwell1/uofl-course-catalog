@@ -3,6 +3,7 @@ import Header from './components/Header'
 import SearchFilter from './components/SearchFilter'
 import CourseCard from './components/CourseCard'
 import Pagination from './components/Pagination'
+import { courseNameMatches } from './utils/aiSearch'
 import './App.css'
 
 const STORAGE_KEY = 'uofl-saved-courses'
@@ -160,7 +161,7 @@ function App() {
 
     if (searchTerm) {
       results = results.filter(course =>
-        course.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        courseNameMatches(course.title || course.description, searchTerm) ||
         course.code?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         course.description?.toLowerCase().includes(searchTerm.toLowerCase())
       )
