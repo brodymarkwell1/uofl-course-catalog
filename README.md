@@ -1,63 +1,82 @@
 # UofL Course Catalog
 
-A React-based course catalog application for University of Louisville courses.
+A React-based course catalog application for University of Louisville courses. The application converts the provided course catalog CSV data into JSON and provides an interactive interface for browsing, searching, filtering, and planning courses.
+
+## Live Demo
+
+- GitHub Pages: [ADD YOUR GITHUB PAGES LINK HERE]
+- Vercel: [ADD YOUR VERCEL LINK HERE]
 
 ## Project Structure
 
 - `src/` - React source code
-  - `components/` - React components (CourseCard, Header, Pagination, SearchFilter)
-  - `utils/` - Utility functions (aiSearch.js)
-  - `App.jsx` - Main app component
+  - `components/` - Reusable React components
+    - `CourseCard`
+    - `Header`
+    - `Pagination`
+    - `SearchFilter`
+  - `utils/` - Utility functions
+    - `aiSearch.js`
+  - `App.jsx` - Main application component
   - `main.jsx` - React entry point
   - `index.css` - Global styles
 
 - `public/` - Static assets
-  - `catalog.json` - Generated course data (created by Python script)
+  - `catalog.json` - Course data generated from the provided CSV
 
-- `scripts/` - Python scripts
-  - `convert_csv.py` - Converts CSV course data to JSON
+- `scripts/` - Data conversion scripts
+  - `convert_csv.py` - Converts the course catalog CSV data into JSON
+
+## Approach
+
+The provided course catalog data is supplied as a CSV file. A Python script is used to convert the CSV data into a JSON file that can be efficiently loaded by the React application.
+
+The React frontend then loads the JSON course data and renders each course as an interactive card. Search, department filtering, pagination, and course planning are handled within the application.
+
+The application uses React components to separate major pieces of functionality and keep the code organized and reusable.
+
+## Features
+
+- Display of the UofL Course Catalog
+- Course cards displaying:
+  - Subject
+  - Catalog Number
+  - Course Description
+- Search courses by course name, code, or description
+- Filter courses by department
+- Pagination through the course catalog
+- Save courses
+- Add courses to a semester-based Course Planner
+- Remove courses from individual semesters
+- Support for multiple semesters
+- Responsive design for different screen sizes
+- AI-powered search functionality
+- CSV-to-JSON data conversion using Python
+
+## Technologies Used
+
+- React
+- JavaScript
+- HTML
+- CSS
+- Vite
+- Python
+- JSON
+- Git / GitHub
 
 ## Setup
 
 ### Prerequisites
-- Node.js (v16+)
-- Python (for data conversion)
+
+- Node.js v16 or later
+- Python 3.x
+- Git
 
 ### Installation
 
+Clone the repository and install the dependencies:
+
 ```bash
+git clone [https://github.com/brodymarkwell1/uofl-course-catalog]
+cd uofl-course-catalog
 npm install
-```
-
-### Running the Dev Server
-
-```bash
-npm run dev
-```
-
-### Building for Production
-
-```bash
-npm run build
-```
-
-### Data Conversion
-
-To convert CSV course data to JSON:
-
-```bash
-python scripts/convert_csv.py
-```
-
-This generates `public/catalog.json` which is used by the React app.
-
-## Features
-
-- Course card display
-- Search and filtering functionality
-- Pagination support
-- AI-powered search capabilities
-
-## License
-
-MIT
