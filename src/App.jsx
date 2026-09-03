@@ -135,6 +135,7 @@ function App() {
 
   const plannerCourseIds = plannerCourses[selectedSemester] || []
   const plannerCoursesList = courses.filter(course => plannerCourseIds.includes(course.id))
+  const departments = [...new Set(courses.map(course => course.department).filter(Boolean))].sort()
   const totalPlannerCredits = plannerCoursesList.reduce((sum, course) => sum + getCourseCredits(course), 0)
 
   let warningText = ''
@@ -204,6 +205,7 @@ function App() {
           <SearchFilter 
             onSearch={setSearchTerm}
             onFilter={setFilterTerm}
+            departments={departments}
           />
         ) : null}
 

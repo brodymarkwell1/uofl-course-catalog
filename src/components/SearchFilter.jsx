@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './SearchFilter.css'
 
-function SearchFilter({ onSearch, onFilter }) {
+function SearchFilter({ onSearch, onFilter, departments }) {
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState('')
 
@@ -32,13 +32,19 @@ function SearchFilter({ onSearch, onFilter }) {
           onChange={handleSearchChange}
           className="search-input"
         />
-        <input
-          type="text"
-          placeholder="Filter by department..."
-          value={filter}
-          onChange={handleFilterChange}
-          className="filter-input"
-        />
+        <label className="department-filter">
+          <span>Department</span>
+          <select
+            value={filter}
+            onChange={handleFilterChange}
+            className="filter-select"
+          >
+            <option value="">All Departments</option>
+            {departments.map(department => (
+              <option value={department} key={department}>{department}</option>
+            ))}
+          </select>
+        </label>
         {(search || filter) && (
           <button onClick={handleClear} className="clear-btn">
             Clear All
