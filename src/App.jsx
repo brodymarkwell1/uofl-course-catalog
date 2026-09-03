@@ -149,7 +149,7 @@ function App() {
 
   useEffect(() => {
     // Load course data from catalog.json
-    fetch('/catalog.json')
+    fetch(`${import.meta.env.BASE_URL}catalog.json`)
       .then(res => res.json())
       .then(data => {
         setCourses(data)

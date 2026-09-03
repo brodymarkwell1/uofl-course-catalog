@@ -4,7 +4,7 @@ A React-based course catalog application for University of Louisville courses. T
 
 ## Live Demo
 
-- GitHub Pages: [https://github.com/brodymarkwell1/uofl-course-catalog]
+- GitHub Pages: https://brodymarkwell1.github.io/uofl-course-catalog/
 - Vercel: [https://uofl-course-catalog.vercel.app/]
 
 ## Project Structure
