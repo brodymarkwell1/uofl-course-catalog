@@ -171,6 +171,34 @@
   flex-wrap: wrap;
 }
 
+.planner-add-control {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 0.65rem;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  background: #eff6ff;
+}
+
+.planner-add-control label {
+  width: 100%;
+  color: #1e3a8a;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.planner-add-control select {
+  min-height: 2.75rem;
+  padding: 0.55rem 0.7rem;
+  border: 2px solid #93c5fd;
+  border-radius: 6px;
+  background: white;
+  color: #1f2937;
+  font-size: 0.95rem;
+}
+
 .save-course-btn {
   padding: 0.75rem 1.25rem;
   border: none;
@@ -201,6 +229,11 @@
 
 .planner-btn:hover {
   background-color: #687b82;
+}
+
+.planner-btn:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
 }
 
 @media (max-width: 768px) {

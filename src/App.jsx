@@ -7,7 +7,18 @@ import './App.css'
 
 const STORAGE_KEY = 'uofl-saved-courses'
 const PLANNER_STORAGE_KEY = 'uofl-course-planner'
+const SELECTED_SEMESTER_STORAGE_KEY = 'uofl-selected-semester'
 const DEFAULT_SEMESTER = 'Fall 2026'
+const SEMESTERS = [
+  'Fall 2026',
+  'Spring 2027',
+  'Summer 2027',
+  'Fall 2027',
+  'Spring 2028',
+  'Summer 2028',
+  'Fall 2028',
+  'Spring 2029'
+]
 
 function App() {
   const [courses, setCourses] = useState([])
@@ -17,8 +28,13 @@ function App() {
   const [filterTerm, setFilterTerm] = useState('')
   const [selectedCourse, setSelectedCourse] = useState(null)
   const [savedCourseIds, setSavedCourseIds] = useState([])
-  const [plannerCourses, setPlannerCourses] = useState({})
-  const [selectedSemester, setSelectedSemester] = useState(DEFAULT_SEMESTER)
+  const [plannerCourses, setPlannerCourses] = useState(() =>
+    JSON.parse(localStorage.getItem(PLANNER_STORAGE_KEY) || '{}')
+  )
+  const [selectedSemester, setSelectedSemester] = useState(() =>
+    localStorage.getItem(SELECTED_SEMESTER_STORAGE_KEY) || DEFAULT_SEMESTER
+  )
+  const [addSemester, setAddSemester] = useState('')
   const [showSavedOnly, setShowSavedOnly] = useState(false)
   const [currentView, setCurrentView] = useState('all')
   const coursesPerPage = 10
@@ -27,8 +43,6 @@ function App() {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
     setSavedCourseIds(saved)
 
-    const plannerData = JSON.parse(localStorage.getItem(PLANNER_STORAGE_KEY) || '{}')
-    setPlannerCourses(plannerData)
   }, [])
 
   useEffect(() => {
@@ -39,7 +53,12 @@ function App() {
     localStorage.setItem(PLANNER_STORAGE_KEY, JSON.stringify(plannerCourses))
   }, [plannerCourses])
 
+  useEffect(() => {
+    localStorage.setItem(SELECTED_SEMESTER_STORAGE_KEY, selectedSemester)
+  }, [selectedSemester])
+
   const openCourseDetails = (course) => {
+    setAddSemester('')
     setSelectedCourse(course)
   }
 
@@ -62,20 +81,21 @@ function App() {
     )
   }
 
-  const togglePlannerCourse = (course) => {
-    const semesterCourses = plannerCourses[selectedSemester] || []
+  const togglePlannerCourse = (course, destinationSemester) => {
+    const semester = destinationSemester || selectedSemester
+    const semesterCourses = plannerCourses[semester] || []
 
     if (semesterCourses.includes(course.id)) {
       setPlannerCourses(current => ({
         ...current,
-        [selectedSemester]: (current[selectedSemester] || []).filter(id => id !== course.id)
+        [semester]: (current[semester] || []).filter(id => id !== course.id)
       }))
       return
     }
 
     setPlannerCourses(current => ({
       ...current,
-      [selectedSemester]: [...(current[selectedSemester] || []), course.id]
+      [semester]: [...(current[semester] || []), course.id]
     }))
   }
 
@@ -222,9 +242,9 @@ function App() {
               <label className="semester-picker">
                 <span>Selected semester:</span>
                 <select value={selectedSemester} onChange={event => setSelectedSemester(event.target.value)}>
-                  <option value="Fall 2026">Fall 2026</option>
-                  <option value="Spring 2027">Spring 2027</option>
-                  <option value="Summer 2027">Summer 2027</option>
+                  {SEMESTERS.map(semester => (
+                    <option value={semester} key={semester}>{semester}</option>
+                  ))}
                 </select>
               </label>
             </div>
@@ -308,13 +328,37 @@ function App() {
               >
                 {isSaved(selectedCourse.id) ? 'Saved' : 'Save Course'}
               </button>
-              <button
-                type="button"
-                className={`save-course-btn planner-btn ${isInPlanner(selectedCourse.id) ? 'saved' : ''}`}
-                onClick={() => togglePlannerCourse(selectedCourse)}
-              >
-                {isInPlanner(selectedCourse.id) ? 'In Planner' : 'Add to Planner'}
-              </button>
+              {isInPlanner(selectedCourse.id) ? (
+                <button
+                  type="button"
+                  className="save-course-btn planner-btn saved"
+                  onClick={() => togglePlannerCourse(selectedCourse, selectedSemester)}
+                >
+                  Remove from {selectedSemester}
+                </button>
+              ) : (
+                <div className="planner-add-control">
+                  <label htmlFor="add-semester">Add to semester</label>
+                  <select
+                    id="add-semester"
+                    value={addSemester}
+                    onChange={event => setAddSemester(event.target.value)}
+                  >
+                    <option value="">Choose a semester</option>
+                    {SEMESTERS.map(semester => (
+                      <option value={semester} key={semester}>{semester}</option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    className="save-course-btn planner-btn"
+                    disabled={!addSemester}
+                    onClick={() => togglePlannerCourse(selectedCourse, addSemester)}
+                  >
+                    Add to Course Planner
+                  </button>
+                </div>
+              )}
             </div>
 
             <p className="course-modal-description">
